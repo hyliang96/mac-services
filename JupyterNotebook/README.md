@@ -13,6 +13,5 @@
 
 *   iPyNbViewer.app: [下载链接](https://bioequity.org/ipynbviewer/)
 *   `用JupyterNotebook打开.workflow`: 自己写的，拷贝到`~/Library/Services`
-*   系统偏好设置-键盘-快捷键-服务-文件和文件夹-**勾除**“`用JupyterNotebook打开”
-
-*   系统偏好设置-扩展-访达-勾选‘用JupyterNotebook打开’
+*   系统偏好设置-键盘-快捷键-服务-文件和文件夹-**勾除**“`用JupyterNotebook打开”:་以便在访达-右键-服务 中看不到这个条
+*   系统偏好设置-扩展-访达-勾选‘用JupyterNotebook打开‘：以便在访达-右键-快捷操作 中看见这条
