@@ -63,17 +63,22 @@
     if [[ "$f" =~ '.md$' ]]; then
         if [ -d "$f" ]; then
            if ! [ -f "$f/main.md" ]; then
-               upfolder_markdown="$(basename "$(dirname "$f")")"
-               title_markdown="$(basename "$f")"
-               title_markdown="${title_markdown:0:-3}"
-               echo "---
+                upfolder_markdown="$(basename "$(dirname "$f")")"
+				post_root='/Users/mac/Desktop/myblog/source/_posts'
+		        if [[ $upfolder_markdown =~ "^$post_root" ]]; then
+                    title_markdown="$(basename "$f")"
+                    title_markdown="${title_markdown:0:-3}"
+                    echo "---
 title: ${title_markdown}
 date: 
 updated: 
-categories:
-- ${upfolder_markdown}
-tags: 
+categories:" &gt;&gt; "$f/main.md"
+					 related_path="$()"
+					 for 
+						- ${upfolder_markdown}
+					 echo "tags: 
 ---" &gt;&gt; "$f/main.md"
+                 fi
             fi
             open -a 'Typora' "$f/main.md"
 	    else
@@ -195,7 +200,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>295.000000:305.000000</string>
+				<string>478.000000:636.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
