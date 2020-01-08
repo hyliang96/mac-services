@@ -59,30 +59,39 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>for f in "$@"; do
+					<string>#!/usr/bin/env zsh
+
+post_root='/Users/mac/Desktop/myblog/source/_posts'
+
+
+for f in "$@"; do
     if [[ "$f" =~ '.md$' ]]; then
         if [ -d "$f" ]; then
-           if ! [ -f "$f/main.md" ]; then
-                upfolder_markdown="$(basename "$(dirname "$f")")"
-				post_root='/Users/mac/Desktop/myblog/source/_posts'
-		        if [[ $upfolder_markdown =~ "^$post_root" ]]; then
-                    title_markdown="$(basename "$f")"
-                    title_markdown="${title_markdown:0:-3}"
-                    echo "---
+            dirpath="`dirname "$f"`"
+            if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ $dirpath =~ "^$post_root" ]]; then
+                title_markdown="`basename "$f"`"
+                title_markdown="${title_markdown:0:-3}"
+                categories=''
+                while [[ $dirpath =~ "^$post_root" ]] &amp;&amp; [ "$dirpath" != "$post_root" ]; do
+                    categories="- $(basename "$dirpath")"$'\n'"${categories}"
+                    dirpath="`dirname "$dirpath"`"
+                done
+                categories="${categories:0:${#categories}-1}"
+                echo -E \
+"---
 title: ${title_markdown}
-date: 
-updated: 
-categories:" &gt;&gt; "$f/main.md"
-					 related_path="$()"
-					 for 
-						- ${upfolder_markdown}
-					 echo "tags: 
----" &gt;&gt; "$f/main.md"
-                 fi
+date:
+updated:
+categories:
+$categories
+tags:
+---" \
+                &gt;&gt; "$f/main.md"
             fi
+
             open -a 'Typora' "$f/main.md"
-	    else
-		    open -a 'Typora' "$f"
+        else
+            open -a 'Typora' "$f"
         fi
     else
        open -a 'Visual Studio Code' "$f"
