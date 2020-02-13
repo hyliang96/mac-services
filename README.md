@@ -1,21 +1,19 @@
-# Mac Services 教程
+# 我的Mac Services
 
-使用mac自带的`自动操作.app`可以编写大量 macOS 中使用的自带操作小程序. 它能编写的程序类型有多种.本repo中文件均为的 `工作流程`, `快速操作`, `应用程序`.
+使用mac自带的`自动操作.app`可以编写大量 macOS 中使用的自带操作小程序. 它能编写的程序类型有多种.本repo中文件均为的 `工作流程`, `快速操作`, `应用程序`, 是我用 `自动操作.app`写的.
 
 本repo中的 `.workflow` 文件均为 `工作流程` 或 `快速操作`, `.app`文件为 `应用程序`.
 
 ![image-20200213144811259](README/image-20200213144811259.png)
 
-
-
-安装教程
+安装方法
 
 ```bash
 git clone https://github.com/hyliang96/mac-services mac-services
 mv mac-services/* ~/Library/Services/
 ```
 
-
+而后根据下面的方法进行设置
 
 ## `服务`的设置
 
