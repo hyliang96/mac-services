@@ -14,7 +14,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>根据扩展名打开</string>
+				<string>根据扩展名打开代码</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>runWorkflowAsService</string>

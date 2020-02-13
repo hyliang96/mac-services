@@ -61,7 +61,7 @@
 					<key>COMMAND_STRING</key>
 					<string>#!/usr/bin/env zsh
 
-post_root='/Users/mac/Desktop/myblog/source/_posts'
+post_root="/Users/${USER}/Desktop/myblog/source/_posts"
 
 
 for f in "$@"; do
@@ -93,6 +93,8 @@ tags:
         else
             open -a 'Typora' "$f"
         fi
+    elif [[ "$f" =~ '.ipynb$' ]]; then
+       open -a "/Users/${USER}/Library/Services/iPyNbViewer.app" "$f"
     else
        open -a 'Visual Studio Code' "$f"
     fi
@@ -209,7 +211,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>478.000000:636.000000</string>
+				<string>478.000000:661.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>

@@ -60,7 +60,7 @@
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>for i in "$@"; do
-    open -a "/Users/mac/Library/Services/JupyterNotebook/iPyNbViewer.app" "$i"
+    open -a "/Users/${USER}/Library/Services/iPyNbViewer.app" "$i"
 done</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
