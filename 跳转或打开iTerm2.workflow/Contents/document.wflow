@@ -51,7 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run {input, parameters}	(* set thefolder to (item 1 of input) *)	(* print input *)				(* Your script goes here *)	tell application "iTerm"		(* 总打开新终端窗口 *)		(* do script "" *)		(* 若已有终端窗口则跳转过去，若无则新建终端窗口 *)		(* reopen *)		activate		(*	是否有窗口存在 *)		set has_iTerm2_window to (window 1 exists)		tell application "System Events"			if not has_iTerm2_window then				keystroke "n" using {command down}			end if			#  用ctrl+command+f 最大化窗口 			# keystroke "f" using {control down, command down}		end tell	end tell			(*if not has_iTerm2_window then		tell application "System Events"			tell process "iTerm2"				keystroke "n" using {command down}				#  用ctrl+command+f 最大化窗口 				# keystroke "f" using {control down, command down}			end tell		end tell	end if*)			(* 这句可以不要 *)	(* return input *)end run</string>
+					<string>on run {input, parameters}	(* set thefolder to (item 1 of input) *)	(* print input *)				(* Your script goes here *)	tell application "iTerm"		(* 总打开新终端窗口 *)		(* do script "" *)		(* 若已有终端窗口则跳转过去，若无则新建终端窗口 *)		(* reopen *)		activate		(*	是否有窗口存在 *)		set has_iTerm2_window to (window 1 exists)		tell application "System Events"			if not has_iTerm2_window then				keystroke "n" using {command down}			end if			#  用ctrl+command+f 最大化窗口 			# keystroke "f" using {control down, command down}		end tell	end tell			(* 这句可以不要 *)	(* return input *)end run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
