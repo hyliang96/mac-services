@@ -51,7 +51,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run {input, parameters}	(* set thefolder to (item 1 of input) *)	(* print input *)		(* Your script goes here *)	tell application "iTerm"		(* 总打开新终端窗口 *)		(* do script "" *)		(* 若已有终端窗口则跳转过去，若无则新建终端窗口 *)		(* reopen *)		activate	end tell			tell application "System Events"		tell process "iTerm2"			if not (window 1 exists) then				keystroke "n" using {command down}			end if			(* 用ctrl+command+f 最大化窗口 *)			# keystroke "f" using {control down, command down}		end tell	end tell		(* 这句可以不要 *)	(* return input *)end run</string>
+					<string>on run {input, parameters}	(* set thefolder to (item 1 of input) *)	(* print input *)
+		(* Your script goes here *)	tell application "iTerm"		(* 总打开新终端窗口 *)		(* do script "" *)		(* 若已有终端窗口则跳转过去，若无则新建终端窗口 *)		(* reopen *)		activate	end tell			tell application "System Events"		tell process "iTerm2"			if not (window 1 exists) then				keystroke "n" using {command down}			end if			(* 用ctrl+command+f 最大化窗口 *)			# keystroke "f" using {control down, command down}		end tell	end tell		(* 这句可以不要 *)	(* return input *)end run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,7 +106,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>295.000000:586.000000</string>
+				<string>478.000000:724.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
