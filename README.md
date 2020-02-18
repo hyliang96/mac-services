@@ -68,7 +68,7 @@ mv mac-services/* ~/Library/Services/
 
 ```
 # 使用iTerm2的快捷键 shift+space来开 hotkey window
-keystroke space using {shift down}
+keystroke space using {command down, option down, control down}
 ```
 
  iTerm2.app 中 开启 HotKey 窗口 的快捷键设置方法如下:
