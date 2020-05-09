@@ -62,6 +62,7 @@
 					<string>for f in "$@"; do
    if [ -d "$f" ]; then
 	   if [[ "$f" =~ '.md$' ]]; then
+           touch "$f/main.md"
            open -a 'Typora' "$f/main.md"
 	   else
 		    open -a 'Typora' "$f"
@@ -182,7 +183,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>478.000000:570.000000</string>
+				<string>582.500000:455.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
