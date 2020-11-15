@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>449.000000:670.000000</string>
+				<string>449.000000:315.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -117,30 +117,8 @@ end run</string>
 	<dict/>
 	<key>workflowMetaData</key>
 	<dict>
-		<key>applicationBundleIDsByPath</key>
-		<dict/>
-		<key>applicationPaths</key>
-		<array/>
-		<key>inputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
-		<key>outputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
-		<key>presentationMode</key>
-		<integer>11</integer>
-		<key>processesInput</key>
-		<integer>0</integer>
-		<key>serviceInputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
-		<key>serviceOutputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
-		<key>serviceProcessesInput</key>
-		<integer>0</integer>
-		<key>systemImageName</key>
-		<string>NSActionTemplate</string>
-		<key>useAutomaticInputType</key>
-		<integer>0</integer>
 		<key>workflowTypeIdentifier</key>
-		<string>com.apple.Automator.servicesMenu</string>
+		<string>com.apple.Automator.application</string>
 	</dict>
 </dict>
 </plist>
