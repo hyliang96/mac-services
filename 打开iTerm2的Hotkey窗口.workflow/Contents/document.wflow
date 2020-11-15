@@ -20,43 +20,44 @@
 					<key>Optional</key>
 					<true/>
 					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
+					<array/>
 				</dict>
 				<key>AMActionVersion</key>
-				<string>1.0.2</string>
+				<string>1.1.1</string>
 				<key>AMApplication</key>
 				<array>
-					<string>自动操作</string>
+					<string>访达</string>
 				</array>
 				<key>AMParameterProperties</key>
 				<dict>
-					<key>source</key>
-					<dict/>
+					<key>appPath</key>
+					<dict>
+						<key>isPathPopUp</key>
+						<true/>
+						<key>variableUUIDsInMenu</key>
+						<array/>
+					</dict>
 				</dict>
 				<key>AMProvides</key>
 				<dict>
 					<key>Container</key>
 					<string>List</string>
 					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
+					<array/>
 				</dict>
 				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<string>/System/Library/Automator/Launch Application.action</string>
 				<key>ActionName</key>
-				<string>运行AppleScript</string>
+				<string>开启应用程序</string>
 				<key>ActionParameters</key>
 				<dict>
-					<key>source</key>
-					<string>on run {input, parameters}	(* set thefolder to (item 1 of input) *)	(* print input *)	(* Your script goes here *)		# 若已经开iTerm2了，则记做has_iTerm2=True	tell application "System Events"		set has_iTerm2 to (process "iTerm2" exists)	end tell				if (not has_iTerm2) then		tell application "iTerm"			(* 总打开新终端窗口 *)			(* do script "" *)			(* 若已有终端窗口则跳转过去，若无则新建终端窗口 *)			(* reopen *)			activate						# entire contents			repeat until window 1 exists			end repeat			# tell application "System Events" to keystroke "m" using {command down}			close window 1			(* tell application "System Events"			(* if (not has_iTerm2) then				# 关闭新开的iTerm2 窗口				keystroke "w" using {command down}			end if *)			# 使用iTerm2的快捷键 option+space来开 hotkey window			# keystroke space using {command down, option down, control down}			keystroke space using {option down}		end tell *)					end tell	end if					tell application "System Events"				# tell process "iTerm2"		# entire contents		# repeat until window 1 exists		# end repeat		(* if (not has_iTerm2) then				# 关闭新开的iTerm2 窗口				keystroke "w" using {command down}			end if  *)		# 使用iTerm2的快捷键 control+option+command+space来开 hotkey window		keystroke space using {control down}		# end tell 	end tell			(* 用ctrl+command+f 最大化窗口 *)	(* tell application "System Events"		keystroke space using {shift down}	end tell *)		(* 这句可以不要 *)	(* return input *)end run</string>
+					<key>appPath</key>
+					<string>~/Library/Services/打开iTerm2的Hotkey窗口.app</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.RunScript</string>
+				<string>com.apple.Automator.OpenApplication</string>
 				<key>CFBundleVersion</key>
-				<string>1.0.2</string>
+				<string>1.1.1</string>
 				<key>CanShowSelectedItemsWhenRun</key>
 				<false/>
 				<key>CanShowWhenRun</key>
@@ -66,34 +67,30 @@
 					<string>AMCategoryUtilities</string>
 				</array>
 				<key>Class Name</key>
-				<string>RunScriptAction</string>
+				<string>AMLaunchApplicationAction</string>
 				<key>InputUUID</key>
-				<string>62DD2F80-182B-42AC-B0EA-624956C347AB</string>
+				<string>BBA8C6C1-5D8F-4C4B-8CC8-9C0C32BA7110</string>
 				<key>Keywords</key>
 				<array>
-					<string>运行</string>
+					<string>文件</string>
+					<string>打开</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>5654406A-5924-495B-8B33-87B205F9D31F</string>
+				<string>4C753E2A-247B-47D0-8593-23FF8C0407CE</string>
 				<key>UUID</key>
-				<string>94AE774D-07B4-4CEC-B754-FE69504E33E6</string>
+				<string>1AB493AB-9329-41C9-9C15-5494EEBE4D04</string>
 				<key>UnlocalizedApplications</key>
 				<array>
-					<string>Automator</string>
+					<string>Finder</string>
 				</array>
 				<key>arguments</key>
 				<dict>
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<string>on run {input, parameters}
-	
-	(* Your script goes here *)
-	
-	return input
-end run</string>
+						<string>/System/Applications/Contacts.app</string>
 						<key>name</key>
-						<string>source</string>
+						<string>appPath</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -102,12 +99,14 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>449.000000:670.000000</string>
+				<string>449.000000:225.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/Launch Application.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
