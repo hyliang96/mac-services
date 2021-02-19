@@ -65,7 +65,7 @@ marginnote_root="/Users/${USER}/Library/Containers/QReader.MarginStudyMac/Data/D
 
 mount_dirs=(
     "/Users/${USER}/Dropbox/Zotero_sync/linked_files" 'zotfile'
-    "/Users/${USER}/Desktop/书/" '书'
+    "/Users/${USER}/Library/Mobile Documents/com~apple~CloudDocs/书" '书'
 )
 
 
@@ -85,8 +85,8 @@ for dir in "${mount_dirs[@]}"; do
         mkdir -p "${target_dir}"
     fi
 
-    if [ -d ${source_dir} ] &amp;&amp; [ -d ${target_dir}  ]; then
-        /usr/local/bin/bindfs ${source_dir} ${target_dir}
+    if [ -d "${source_dir}" ] &amp;&amp; [ -d "${target_dir}"  ]; then
+        /usr/local/bin/bindfs "${source_dir}" "${target_dir}"
     fi
     source_dir=''
     target_dir=''
@@ -204,7 +204,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>403.000000:252.000000</string>
+				<string>486.000000:584.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
