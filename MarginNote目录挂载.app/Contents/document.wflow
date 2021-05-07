@@ -64,7 +64,7 @@
 marginnote_root="/Users/${USER}/Library/Containers/QReader.MarginStudyMac/Data/Documents"
 
 mount_dirs=(
-    "/Users/${USER}/Dropbox/Zotero_sync/linked_files" 'zotfile'
+    "/Users/mac/Library/Mobile Documents/com~apple~CloudDocs/Zotero_sync/linked_files" 'zotfile'
     "/Users/${USER}/Library/Mobile Documents/com~apple~CloudDocs/书" '书'
 )
 
@@ -204,7 +204,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>486.000000:584.000000</string>
+				<string>403.000000:641.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
