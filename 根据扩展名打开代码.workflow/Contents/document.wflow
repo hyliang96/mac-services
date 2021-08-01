@@ -71,6 +71,7 @@ for f in "$@"; do
             if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ $dirpath =~ "^$post_root" ]]; then
                 title_markdown="`basename "$f"`"
                 title_markdown="${title_markdown:0:-3}"
+				date="$(date '+%Y-%m-%d %H:%M:%S')"
                 categories=''
                 while [[ $dirpath =~ "^$post_root" ]] &amp;&amp; [ "$dirpath" != "$post_root" ]; do
                     categories="- $(basename "$dirpath")"$'\n'"${categories}"
@@ -80,7 +81,7 @@ for f in "$@"; do
                 echo -E \
 "---
 title: ${title_markdown}
-date:
+date: ${date}
 updated:
 categories:
 $categories
@@ -212,7 +213,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>403.000000:698.000000</string>
+				<string>403.000000:801.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
