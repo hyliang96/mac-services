@@ -59,45 +59,25 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>
-# marginnote local root dir for pdf files
-marginnote_root="/Users/${USER}/Library/Containers/QReader.MarginStudyMac/Data/Documents"
-
-mount_dirs=(
-    "/Users/mac/Library/Mobile Documents/com~apple~CloudDocs/Zotero_sync/linked_files" 'zotfile'
-    "/Users/${USER}/Library/Mobile Documents/com~apple~CloudDocs/书" '书'
-)
-
-
-
-source_dir=''
-target_dir=''
-
-for dir in "${mount_dirs[@]}"; do
-    if [ "${source_dir}" = '' ]; then
-        source_dir="${dir}"
-        continue
-    else
-        target_dir="${marginnote_root}/${dir}"
-    fi
-
-    if [ -d "${marginnote_root}" ]; then
-        mkdir -p "${target_dir}"
-    fi
-
-    if [ -d "${source_dir}" ] &amp;&amp; [ -d "${target_dir}"  ]; then
-        /usr/local/bin/bindfs "${source_dir}" "${target_dir}"
-    fi
-    source_dir=''
-    target_dir=''
-done
-</string>
+					<string>#!/bin/zsh
+for i in "$@"; do
+osascript &lt;&lt;EOD
+    tell application "iTerm"
+        set newWindow to (create window with default profile)
+        delay 1
+        tell application "System Events"
+            keystroke "jupyter notebook ${i}"
+            keystroke return
+        end tell
+    end tell
+EOD
+done</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
-					<integer>0</integer>
+					<integer>1</integer>
 					<key>shell</key>
-					<string>/bin/bash</string>
+					<string>/bin/zsh</string>
 					<key>source</key>
 					<string></string>
 				</dict>
@@ -116,7 +96,7 @@ done
 				<key>Class Name</key>
 				<string>RunShellScriptAction</string>
 				<key>InputUUID</key>
-				<string>4D6A5BCF-361B-4A63-9AE5-14B3BDA6FD86</string>
+				<string>5431A3C2-D744-48D8-9893-C425C9279928</string>
 				<key>Keywords</key>
 				<array>
 					<string>Shell</string>
@@ -126,9 +106,9 @@ done
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>2B042B41-1F09-427C-9042-1E80E1EFEFC6</string>
+				<string>E97342EC-ED8A-41FD-9BF8-AF426FB43A23</string>
 				<key>UUID</key>
-				<string>A76E60E5-D103-4E24-BE45-7D9866FDCFB0</string>
+				<string>B2ED0237-C6C9-41B9-BF1C-5BDB9F24F007</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -204,7 +184,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>403.000000:686.000000</string>
+				<string>458.250000:252.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -214,6 +194,19 @@ done
 	</array>
 	<key>connectors</key>
 	<dict/>
+	<key>variables</key>
+	<array>
+		<dict>
+			<key>UUID</key>
+			<string>23AF2E99-F3D6-4E55-8EC0-59F5F664DAA0</string>
+			<key>identifier</key>
+			<string>com.apple.Automator.Variable.Path</string>
+			<key>name</key>
+			<string>路径</string>
+			<key>value</key>
+			<string>~/Desktop</string>
+		</dict>
+	</array>
 	<key>workflowMetaData</key>
 	<dict>
 		<key>workflowTypeIdentifier</key>
