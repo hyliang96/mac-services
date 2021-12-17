@@ -61,19 +61,19 @@
 					<key>COMMAND_STRING</key>
 					<string>#!/usr/bin/env zsh
 
-post_root="/Users/${USER}/Documents/my-blog/source/_posts"
+post_root="/Users/${USER}/Documents/blog/.+?/source/_posts"
 
 
 for f in "$@"; do
     if [[ "$f" =~ '.md$' ]]; then
         if [ -d "$f" ]; then
             dirpath="`dirname "$f"`"
-            if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ $dirpath =~ "^$post_root" ]]; then
+            if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ "$dirpath" =~ ^${post_root} ]]; then
                 title_markdown="`basename "$f"`"
                 title_markdown="${title_markdown:0:-3}"
 				date="$(date '+%Y-%m-%d %H:%M:%S')"
                 categories=''
-                while [[ $dirpath =~ "^$post_root" ]] &amp;&amp; [ "$dirpath" != "$post_root" ]; do
+                while [[ $dirpath =~ ^${post_root} ]] &amp;&amp; [[ "$dirpath" =~ ^${post_root}$ ]]; do
                     categories="- $(basename "$dirpath")"$'\n'"${categories}"
                     dirpath="`dirname "$dirpath"`"
                 done
@@ -213,7 +213,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>403.000000:801.000000</string>
+				<string>458.250000:721.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
