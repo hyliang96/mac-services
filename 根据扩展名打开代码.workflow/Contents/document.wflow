@@ -61,24 +61,38 @@
 					<key>COMMAND_STRING</key>
 					<string>#!/usr/bin/env zsh
 
-post_root="/Users/${USER}/Documents/blog/.+?/source/_posts"
+post_root="/Users/${USER}/Documents/blog/.+/source/_posts"
 
 
 for f in "$@"; do
     if [[ "$f" =~ '.md$' ]]; then
         if [ -d "$f" ]; then
             dirpath="`dirname "$f"`"
-            if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ "$dirpath" =~ ^${post_root} ]]; then
+
+			empty_head=0
+			if [  -f "$f/main.md" ]; then
+				if [ "$(cat "$f/main.md" | head -n 1 )" != '---' ]; then
+					empty_head=1
+				fi
+			else
+				if [[ "$dirpath" =~ ^${post_root} ]]; then
+					empty_head=1
+				fi
+			fi
+
+         #    if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ "$dirpath" =~ ^${post_root} ]]; then
+			if [ $empty_head = 1 ]; then
                 title_markdown="`basename "$f"`"
                 title_markdown="${title_markdown:0:-3}"
 				date="$(date '+%Y-%m-%d %H:%M:%S')"
                 categories=''
-                while [[ $dirpath =~ ^${post_root} ]] &amp;&amp; [[ "$dirpath" =~ ^${post_root}$ ]]; do
+                while [[ $dirpath =~ ^${post_root} ]] &amp;&amp; [[ ! "$dirpath" =~ ^${post_root}$ ]]; do
                     categories="- $(basename "$dirpath")"$'\n'"${categories}"
                     dirpath="`dirname "$dirpath"`"
                 done
                 categories="${categories:0:${#categories}-1}"
-                echo -E \
+                touch "$f/main.md"
+                ( echo -E \
 "---
 title: ${title_markdown}
 date: ${date}
@@ -86,8 +100,9 @@ updated:
 categories:
 $categories
 tags:
----" \
-                &gt;&gt; "$f/main.md"
+---" 
+cat  "$f/main.md" ;  ) &gt; /tmp/tmpfile.$$
+			mv /tmp/tmpfile.$$ "$f/main.md"
             fi
 			touch "$f/main.md"
             open -a 'Typora' "$f/main.md"
@@ -100,7 +115,10 @@ tags:
     else
        open -a 'Visual Studio Code' "$f"
     fi
-done</string>
+done
+
+
+</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -213,7 +231,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>458.250000:721.000000</string>
+				<string>361.250000:1070.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
