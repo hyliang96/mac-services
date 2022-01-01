@@ -70,13 +70,13 @@ for f in "$@"; do
             dirpath="`dirname "$f"`"
 
 			empty_head=0
-			if [  -f "$f/main.md" ]; then
-				if [ "$(cat "$f/main.md" | head -n 1 )" != '---' ]; then
+			if [[ "$dirpath" =~ ^${post_root} ]]; then
+				if [ ! -f "$f/main.md" ]; then
 					empty_head=1
-				fi
-			else
-				if [[ "$dirpath" =~ ^${post_root} ]]; then
-					empty_head=1
+				else
+					if [ "$(cat "$f/main.md" | head -n 1 )" != '---' ]; then
+						empty_head=1
+					fi
 				fi
 			fi
 
@@ -231,7 +231,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>361.250000:1070.000000</string>
+				<string>458.250000:795.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
