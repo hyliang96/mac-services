@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>444.42</string>
+	<string>492</string>
 	<key>AMApplicationVersion</key>
-	<string>2.9</string>
+	<string>2.10</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -55,7 +55,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>运行 Shell 脚本</string>
+				<string>运行Shell脚本</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -64,6 +64,8 @@
 	   if [[ "$f" =~ '.md$' ]]; then
            touch "$f/main.md"
            open -a 'Typora' "$f/main.md"
+	   elif [[ "$f" =~ '.bundle$' ]]; then
+		   open -a 'Typora' "$f/text.markdown"
 	   else
 		    open -a 'Typora' "$f"
        fi
@@ -130,9 +132,9 @@ done</string>
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -143,9 +145,9 @@ done</string>
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -183,7 +185,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>582.500000:455.000000</string>
+				<string>458.250000:740.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>

@@ -65,33 +65,40 @@ post_root="/Users/${USER}/Documents/blog/.+/source/_posts"
 
 
 for f in "$@"; do
+    filename=''
     if [[ "$f" =~ '.md$' ]]; then
+        filename="$filename"
+    elif [[ "$f" =~ '.textbundle$' ]]; then
+        filename="$f/text.markdown"
+    fi
+
+    if [ "$filename" != '' ]; then
         if [ -d "$f" ]; then
             dirpath="`dirname "$f"`"
 
-			empty_head=0
-			if [[ "$dirpath" =~ ^${post_root} ]]; then
-				if [ ! -f "$f/main.md" ]; then
-					empty_head=1
-				else
-					if [ "$(cat "$f/main.md" | head -n 1 )" != '---' ]; then
-						empty_head=1
-					fi
-				fi
-			fi
+            empty_head=0
+            if [[ "$dirpath" =~ ^${post_root} ]]; then
+                if [ ! -f "$filename" ]; then
+                    empty_head=1
+                else
+                    if [ "$(cat "$filename" | head -n 1 )" != '---' ]; then
+                        empty_head=1
+                    fi
+                fi
+            fi
 
-         #    if ( ! [ -f "$f/main.md" ] ) &amp;&amp; [[ "$dirpath" =~ ^${post_root} ]]; then
-			if [ $empty_head = 1 ]; then
+         #    if ( ! [ -f "$filename" ] ) &amp;&amp; [[ "$dirpath" =~ ^${post_root} ]]; then
+            if [ $empty_head = 1 ]; then
                 title_markdown="`basename "$f"`"
-                title_markdown="${title_markdown:0:-3}"
-				date="$(date '+%Y-%m-%d %H:%M:%S')"
+                title_markdown="${title_markdown%.*}"
+                date="$(date '+%Y-%m-%d %H:%M:%S')"
                 categories=''
                 while [[ $dirpath =~ ^${post_root} ]] &amp;&amp; [[ ! "$dirpath" =~ ^${post_root}$ ]]; do
                     categories="- $(basename "$dirpath")"$'\n'"${categories}"
                     dirpath="`dirname "$dirpath"`"
                 done
                 categories="${categories:0:${#categories}-1}"
-                touch "$f/main.md"
+                touch "$filename"
                 ( echo -E \
 "---
 title: ${title_markdown}
@@ -101,13 +108,13 @@ categories:
 $categories
 tags:
 ---" 
-cat  "$f/main.md" ;  ) &gt; /tmp/tmpfile.$$
-			mv /tmp/tmpfile.$$ "$f/main.md"
+cat  "$filename" ;  ) &gt; /tmp/tmpfile.$$
+            mv /tmp/tmpfile.$$ "$filename"
             fi
-			touch "$f/main.md"
-            open -a 'Typora' "$f/main.md"
+            touch "$filename"
+            open -a 'Typora' "$filename"
         else
-			touch "$f"
+            touch "$f"
             open -a 'Typora' "$f"
         fi
     elif [[ "$f" =~ '.ipynb$' ]]; then
@@ -231,7 +238,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>458.250000:795.000000</string>
+				<string>458.250000:778.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
