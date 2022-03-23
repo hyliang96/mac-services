@@ -66,10 +66,13 @@ post_root="/Users/${USER}/Documents/blog/.+/source/_posts"
 
 for f in "$@"; do
     filename=''
+	assets_link=''
     if [[ "$f" =~ '.md$' ]]; then
-        filename="$filename"
+        filename="$f/main.md"
+		assets_link="$f/main"
     elif [[ "$f" =~ '.textbundle$' ]]; then
         filename="$f/text.markdown"
+		assets_link="$f/text"
     fi
 
     if [ "$filename" != '' ]; then
@@ -110,6 +113,8 @@ tags:
 ---" 
 cat  "$filename" ;  ) &gt; /tmp/tmpfile.$$
             mv /tmp/tmpfile.$$ "$filename"
+			mkdir "$f/assets"
+			ln -s assets "$assets_link"
             fi
             touch "$filename"
             open -a 'Typora' "$filename"
@@ -238,7 +243,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>458.250000:778.000000</string>
+				<string>458.250000:792.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
