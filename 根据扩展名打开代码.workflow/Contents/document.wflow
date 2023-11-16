@@ -71,7 +71,11 @@ for f in "$@"; do
         filename="$f/main.md"
 		assets_link="$f/main"
     elif [[ "$f" =~ '.textbundle$' ]]; then
-        filename="$f/text.markdown"
+		if [ -f "$f/text.md" ]; then
+			filename="$f/text.md"
+		else
+	        filename="$f/text.markdown"
+		fi
 		assets_link="$f/text"
     fi
 
@@ -243,7 +247,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>458.250000:792.000000</string>
+				<string>361.250000:780.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
