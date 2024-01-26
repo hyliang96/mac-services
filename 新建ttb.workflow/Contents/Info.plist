@@ -8,11 +8,11 @@
 			<key>NSBackgroundColorName</key>
 			<string>background</string>
 			<key>NSIconName</key>
-			<string>NSActionTemplate</string>
+			<string>NSTouchBarCircleAdd</string>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>创建ttb</string>
+				<string>新建ttb</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>runWorkflowAsService</string>
