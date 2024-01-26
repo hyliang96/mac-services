@@ -64,7 +64,7 @@
 	   if [[ "$f" =~ '.md$' ]]; then
            touch "$f/main.md"
            open -a 'Typora' "$f/main.md"
-	   elif [[ "$f" =~ '.textbundle$' ]]; then
+	   elif [[ "$f" =~ '.textbundle$' ]] || [[ "$f" =~ '.ttb$' ]]; then
 			if [ -f "$f/text.md" ]; then
 				filename="$f/text.md"
 			else
@@ -190,7 +190,7 @@ done</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>361.250000:543.000000</string>
+				<string>361.250000:1136.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
