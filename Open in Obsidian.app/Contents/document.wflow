@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>492</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>2.0.3</string>
+				<key>AMApplication</key>
+				<array>
+					<string>自动操作</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<dict/>
+					<key>CheckedForUserDefaultShell</key>
+					<dict/>
+					<key>inputMethod</key>
+					<dict/>
+					<key>shell</key>
+					<dict/>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
+				<key>ActionName</key>
+				<string>运行Shell脚本</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>#!/usr/bin/env bash
+# Open a Markdown file in Obsidian
+
+# CONFIGURATION
+vault_where_files_must_be_opened="/Users/mac/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian-vault"
+subtrees_that_must_be_mirrored_in_vault=(
+	*.textbundle
+)
+
+# Utility functions
+get_linked_files() {
+	# Also create symlinks to local files, like images, to which the Markdown file links
+	md_dir="$(dirname "$1")"
+	# Obsidian 1.0.0 doesn't display &lt;img src="..."&gt; but perhaps a future version will
+	sed -En -e 's/.*\[[^]]*\]\(([^"]+)[^)]*\).*/\1/p' \
+			-e 's/.*&lt;img[^&gt;]* src="([^?"]+)("|\?).*/\1/p' &lt;"$1" |
+		while IFS= read -r linktext
+		do
+			linked_file="$(/usr/local/bin/greadlink -f "$md_dir/${linktext% }")"
+			# is it really a local file, not a symlink, and not higher up in the file tree?
+			if [[ $? &amp;&amp;  "$linked_file" == "$md_dir"* ]]
+			then
+				link_dir=$2
+				# create subdirs if needed
+				abs_dir="$(dirname "$linked_file")"
+				if [[ "$md_dir" != "$abs_dir" ]]
+				then
+					link_dir="$link_dir${abs_dir#$md_dir}"
+					mkdir -p "$link_dir"
+				fi
+				linkpath="$link_dir/$(basename "$linked_file")"
+				[[ ! -e "$linkpath" ]] &amp;&amp; ln -s "$linked_file" "$linkpath"
+			fi
+		done
+}
+
+open_file() {
+	local filepath="$1"
+	if [[ "${filepath##*.}" = textbundle ]]; then
+		if [[ -f "${filepath}/text.markdown" ]]; then
+			filepath="${filepath}/text.markdown"
+		elif [[ -f "${filepath}/text.md" ]]; then
+			filepath="${filepath}/text.md"
+		fi
+	fi
+
+	# Thanks, https://stackoverflow.com/a/10797966/7840347
+	url_encoded="$(echo -n "$filepath" | curl -Gso /dev/null -w %{url_effective}\
+	  --data-urlencode @- "" | tr "+" " " | cut -c 3-)"
+	if [[ -z $url_encoded ]]; then url_encoded="$filepath"; fi   # curl on macOS 13.2 has some problems
+	open "obsidian://open?path=$url_encoded"
+}
+
+
+# Main script
+IFS=$'\n' all_vaults=($(awk -F':|,|{|}|"' '{for(i=1;i&lt;=NF;i++)if($i=="path")print$(i+3)}'\
+   &lt;"$HOME/Library/Application Support/obsidian/obsidian.json"))
+default_vault="$(/usr/local/bin/greadlink -f "$vault_where_files_must_be_opened")" || \
+default_vault="$(sed -E 's/.*"path":"([^"]+)",.*"open":true.*/\1/'\
+   &lt;"$HOME/Library/Application Support/obsidian/obsidian.json")"  # currently active vault
+
+for file in "$@"
+do
+	# check for existence and readability
+	if [[ (! -e "$file") || (! -r "$file") ]]
+	then
+		logger "OPEN-IN-OBSIDIAN warning: No readable file $file"
+		continue
+	fi
+	abspath=$(/usr/local/bin/greadlink  -f "$file")
+
+	# 1. If the file is inside any vault (in place or linked), just open it
+	for v in "${all_vaults[@]}"
+	do
+		foundpath="$(find -L "$v" -samefile "$abspath" -and ! -path "*/.trash/*")"
+		if [[ $foundpath ]]
+		then
+			open_file "$foundpath"
+			continue 2  # next input file
+		fi
+	done
+
+	# 2. If it's in one of the folders that should be mirrored,
+	#    replicate the folder's internal directory chain in the vault
+	#    and put a link to the file in it; then open that
+	for base in "${subtrees_that_must_be_mirrored_in_vault[@]}"
+	do
+		if [[ "$abspath" == "$base"* ]]
+		then
+			linkpath="$default_vault/$(basename "$base")${abspath#$base}"
+			mkdir -p "$(dirname "$linkpath")"
+			ln -s "$abspath" "$linkpath"
+
+			get_linked_files "$abspath" "$(dirname "$linkpath")"
+			sleep 1  # delay for Obsidian to notice the new file(s)
+			open_file "$linkpath"
+			continue 2
+		fi
+	done
+
+
+	# 3 open file inside *.textbundle, should create symlink from the *.textbundle to the Temp dir,
+	# then open the file in the *.textbundle link
+	if [[ "$abspath" == *.textbundle/* ]]; then
+		inner_path="${abspath##*.textbundle/}"
+		abs_outter_path="${abspath%${inner_path}}"
+
+		linkpath="$default_vault/Temp/$(basename "$abs_outter_path")"
+		link_file_path="${linkpath}/${inner_path}"
+
+
+		mkdir -p "$(dirname "$linkpath")"
+		ln -s "$abs_outter_path" "$linkpath"
+
+		get_linked_files "$abspath" "$(dirname "$link_file_path")"
+		sleep 1  # delay for Obsidian to notice the new file(s)
+		open_file "$link_file_path"
+		continue 2
+	fi
+
+	# 4. In other cases, create a uniquely named symlink in the Temp folder and open it
+	filename="$(basename "$abspath")"
+	filename_nosuffix="${filename%%.*}"
+	baselinkpath="$default_vault/Temp/${filename_nosuffix}-tmp"
+	mkdir -p "${baselinkpath}"
+	linkpath="$baselinkpath/$filename"
+	while [[ -e "$linkpath" ]]  # don't overwrite existing symlinks: choose a unique name
+	do
+		linkpath="${linkpath%.*}_$RANDOM.${linkpath##*.}"
+	done
+	ln -s "$abspath" "$linkpath"
+
+	get_linked_files "$abspath" "$baselinkpath"
+	sleep 1
+
+	open_file "$linkpath"
+done
+</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.RunShellScript</string>
+				<key>CFBundleVersion</key>
+				<string>2.0.3</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunShellScriptAction</string>
+				<key>InputUUID</key>
+				<string>DB5D85B4-1026-4DB8-8E14-D1984065D188</string>
+				<key>Keywords</key>
+				<array>
+					<string>Shell</string>
+					<string>脚本</string>
+					<string>命令</string>
+					<string>运行</string>
+					<string>Unix</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>D8F61EF1-62CC-487B-8B5D-A1D420CD56B4</string>
+				<key>UUID</key>
+				<string>0BCA3E12-5E3B-48BE-BC96-0861D36841DF</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<integer>0</integer>
+						<key>name</key>
+						<string>inputMethod</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>CheckedForUserDefaultShell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+					<key>3</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>COMMAND_STRING</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3</string>
+					</dict>
+					<key>4</key>
+					<dict>
+						<key>default value</key>
+						<string>/bin/sh</string>
+						<key>name</key>
+						<string>shell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>4</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>541.250000:750.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.application</string>
+	</dict>
+</dict>
+</plist>
