@@ -63,7 +63,7 @@
 # Open a Markdown file in Obsidian
 
 # CONFIGURATION
-vault_where_files_must_be_opened="/Users/mac/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian-vault"
+vault_where_files_must_be_opened="/Users/mac/Library/Mobile Documents/iCloud~md~obsidian/Documents/技术笔记"
 subtrees_that_must_be_mirrored_in_vault=(
 	*.textbundle
 )
@@ -309,7 +309,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>541.250000:750.000000</string>
+				<string>361.250000:566.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
